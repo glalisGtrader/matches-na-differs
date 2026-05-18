@@ -464,7 +464,85 @@ setInterval(() => {
 },1000);
 
 
-</script>
+</scriptconst token = "pat_3163574ac8f05752eceb31543153654e26238bea4b16aa6669edbf1010de4a98";
+
+const socket =
+new WebSocket(""wss://ws.derivws.com/websockets/v3?app_id=1089");
+
+socket.onopen = function () {
+
+    socket.send(JSON.stringify({
+        authorize: token
+    }));
+
+    socket.send(JSON.stringify({
+        ticks: "R_100"
+    }));
+};
+
+socket.onmessage = function (event) {
+
+    const data = JSON.parse(event.data);
+
+    if(data.tick){
+
+        let price = data.tick.quote.toString();
+
+        let digit =
+        price.charAt(price.length - 1);
+
+        processDigit(digit);
+    }
+};
+
+function processDigit(digit){
+
+    document.getElementById("digit").innerText =
+        digit;
+
+    history.unshift(digit);
+
+    if(history.length > 15){
+        history.pop();
+    }
+
+    document.getElementById("history").innerText =
+        history.join(" ");
+
+    frequency[digit]++;
+
+    updateHotDigits();
+
+    if(previousDigit !== null){
+
+        if(digit == previousDigit){
+
+            matchCount++;
+
+            document.getElementById("signal").innerText =
+                "MATCH";
+
+            document.getElementById("signal").className =
+                "signal match";
+
+        }else{
+
+            differCount++;
+
+            document.getElementById("signal").innerText =
+                "DIFFER";
+
+            document.getElementById("signal").className =
+                "signal differ";
+        }
+    }
+
+    previousDigit = digit;
+
+    updateStats();
+
+    updatePrediction();
+}>
 
 
 </body>
