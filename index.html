@@ -464,10 +464,22 @@ setInterval(() => {
 },1000);
 
 
-</scriptconst token = "pat_3163574ac8f05752eceb31543153654e26238bea4b16aa6669edbf1010de4a98";
+<script>
+
+const token = "pat_7063d100346abb1a5553a69cd2f864f18c2fdad0ec11d8a9e478d5ec8331b080";
 
 const socket =
-new WebSocket(""wss://ws.derivws.com/websockets/v3?app_id=1089");
+new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=1089");
+
+let history = [];
+let frequency = {
+    0:0,1:0,2:0,3:0,4:0,
+    5:0,6:0,7:0,8:0,9:0
+};
+
+let previousDigit = null;
+let matchCount = 0;
+let differCount = 0;
 
 socket.onopen = function () {
 
@@ -542,7 +554,9 @@ function processDigit(digit){
     updateStats();
 
     updatePrediction();
-}>
+}
+
+</script>
 
 
 </body>
